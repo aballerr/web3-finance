@@ -1,0 +1,28 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 16
+
+    commands:
+      # install
+      - yarn
+
+  build:
+    commands:
+      # run build script
+      - yarn eslint
+      - yarn build-s3
+
+  post_build:
+    commands:
+      - aws cloudfront create-invalidation --distribution-id=E3UDQXO1COZWR7 --paths '/*'
+
+artifacts:
+  # include all files required to run application
+  # notably excluded is node_modules, as this will cause overwrite error on deploy
+  files:
+    - "**/*"
+  discard-paths: no
+  base-directory: out/

@@ -1,0 +1,24 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - aws --version
+      - docker login -u AWS -p $(aws ecr get-login-password --region us-east-1) 214772664190.dkr.ecr.us-east-1.amazonaws.com/rest-api
+      - REPOSITORY_URI=214772664190.dkr.ecr.us-east-1.amazonaws.com/rest-api
+      - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
+      - echo $IMAGE_TAG
+  build:
+    commands:
+      - echo Build started on `date`
+      - docker build -t $REPOSITORY_URI:latest .
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+  post_build:
+    commands:
+      - docker push $REPOSITORY_URI:latest
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - printf '[{"name":"rest-api","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - cat imagedefinitions.json
+      - yarn
+      - yarn run migrate:prod
+artifacts:
+  files: imagedefinitions.json

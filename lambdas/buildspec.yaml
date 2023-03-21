@@ -1,0 +1,20 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - aws --version
+  build:
+    commands:
+      - npm install
+      - npx tsc
+      - ls
+      - npm prune
+      - mkdir build/node_modules
+      - cp -r node_modules/* build/node_modules/
+      - zip -r basic-lambda-role.zip build/*
+  post_build:
+    commands:
+      - aws lambda update-function-code --function-name update-transactions --zip-file fileb://basic-lambda-role.zip
+      - aws lambda update-function-code --function-name update-balances --zip-file fileb://basic-lambda-role.zip
+artifacts:
+  files: basic-lambda-role.zip

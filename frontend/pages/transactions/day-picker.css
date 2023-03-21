@@ -1,0 +1,43 @@
+.rdp {
+  --rdp-accent-color: #f9fafb;
+  --rdp-background-color: #e7edff;
+  /* Switch to dark colors for dark themes */
+  --rdp-accent-color-dark: pink;
+  --rdp-background-color-dark: pink;
+  /* Outline border for focused elements */
+  --rdp-outline: 2px solid var(--rdp-accent-color);
+  /* Outline border for focused and selected elements */
+  --rdp-outline-selected: 2px solid rgba(0, 0, 0, 0.75);
+}
+
+.rdp-day_selected,
+.rdp-day_selected:focus-visible,
+.rdp-day_selected:hover {
+  color: black !important;
+  background-color: #f5f5f5 !important;
+}
+
+.rdp:not([dir="rtl"]) .rdp-day_range_start:not(.rdp-day_range_end),
+.rdp:not([dir="rtl"]) .rdp-day_range_end:not(.rdp-day_range_start) {
+  border-radius: 50% !important;
+}
+
+.rdp-day_range_end,
+.rdp-day_range_start,
+.rdp-day_range_start:hover,
+.rdp-day_range_end:hover {
+  background-color: #00cf9d !important;
+  color: white !important;
+}
+
+.edge-date-end {
+  background-color: #f5f5f5 !important;
+  border-top-right-radius: 50% !important;
+  border-bottom-right-radius: 50% !important;
+}
+
+.edge-date-start {
+  background-color: #f5f5f5 !important;
+  border-top-left-radius: 50% !important;
+  border-bottom-left-radius: 50% !important;
+}
